@@ -8,13 +8,12 @@ function addTodo() {
   const taskText = taskInput.value.trim();
   if (taskText === "") return;
 
-addTaskBtn.addEventListener("click", function() {
-  const taskText = taskInput.value.trim();
-
   const li = document.createElement("li");
-  li.textContent = taskText;
+  
+  const textSpan = document.createElement("span");
+  textSpan.textContent = taskText;
 
-  // Delete button
+  // Delete button 
 
   const deleteBtn = document.createElement("button");
   deleteBtn.textContent = "Delete";
@@ -24,6 +23,7 @@ addTaskBtn.addEventListener("click", function() {
     li.remove(); // simpler als taskList.removeChild(li) 
   });
 
+  li.appendChild(textSpan);
   li.appendChild(deleteBtn);
   taskList.appendChild(li);
 
