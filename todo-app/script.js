@@ -3,20 +3,28 @@
 const taskInput = document.getElementById("taskInput");
 const addTaskBtn = document.getElementById("addTaskBtn");
 const taskList = document.getElementById("taskList");
-
 const taskCounter = document.getElementById("taskCounter");
+
 let taskCount = 0;
 
 function updateCounter() {
   taskCounter.textContent = "Tasks: " + taskCount;
 }
 
-function addTodo() {
-  const taskText = taskInput.value.trim();
-  if (taskText === "") return;
+function saveTasks() {
+  const tasks = [];
+  const spans = taskList.querySelectorAll("li span");
 
-  const li = document.createElement("li");
+  spans.forEach(function (span) {
+    tasks.push(span.textContent);
+  });
   
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function createTaskElement(task Text) {
+  const li = document.createElement("li")
+
   const textSpan = document.createElement("span");
   textSpan.textContent = taskText;
 
@@ -27,19 +35,52 @@ function addTodo() {
 
   deleteBtn.addEventListener("click", function() {
     li.remove();  // simpler als taskList.removeChild(li) 
-    taskCount--;
+
+    if (taskCount > 0) {
+      taskCount--;
+    }
+    
     updateCounter();
+    saveTasks();
   });
 
   li.appendChild(textSpan);
   li.appendChild(deleteBtn);
-  taskList.appendChild(li);
 
+  return li;
+}
+
+function addTodo() {
+  const taskText = taskInput.value.trim();
+  if (taskText === "") return;
+
+  const li = createTaskElement(taskText);
+  taskList.appendChild(li);
+  
   taskCount++;
   updateCounter();
+  saveTasks();
 
   taskInput.value = "";
   taskInput.focus();
+}
+
+function loadTasks() {
+  const saved = localStorage.getItem("tasks");
+  if (!saved) {
+    updateCounter();
+    return;
+  }
+
+  const tasks = JSON.parse(saved);
+
+  tasks.forEach(function (taskText) {
+    const li = createElement(task Text);
+    taskList.appendChild(li);
+  });
+
+  taskCount = taskList.children.lenght;
+  updateCounter();
 }
 
 addTaskBtn.addEventListener("click", addTodo);
@@ -51,8 +92,8 @@ addTaskBtn.addEventListener("click", addTodo);
     }
   });
 
-  // Initial counter display
-  updateCounter();
+  // Load tasks on page start
+  loadTasks();
 
 
                             
