@@ -25,8 +25,20 @@ function saveTasks() {
 function createTaskElement(task Text) {
   const li = document.createElement("li")
 
+  const checkbox = document.createElement("input")
+  checkbox.type = "checkbox";
+  checkbox.style.marginRight = "8px";
+
   const textSpan = document.createElement("span");
   textSpan.textContent = taskText;
+
+  checkbox.addEventListener("change", function() {
+    if (checkbox.checked) {
+      textSpan.style.textDecoration = "line-through";
+    } else {
+      textspan.style.textDecoration = "none";
+    }
+  });
 
   // Delete button 
   const deleteBtn = document.createElement("button");
@@ -44,6 +56,7 @@ function createTaskElement(task Text) {
     saveTasks();
   });
 
+  li.appendChild(checkbox);
   li.appendChild(textSpan);
   li.appendChild(deleteBtn);
 
