@@ -22,7 +22,7 @@ function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-function createTaskElement(task Text) {
+function createTaskElement(taskText) {
   const li = document.createElement("li")
 
   const checkbox = document.createElement("input")
@@ -88,7 +88,7 @@ function loadTasks() {
   const tasks = JSON.parse(saved);
 
   tasks.forEach(function (taskText) {
-    const li = createElement(task Text);
+    const li = createElement(taskText);
     taskList.appendChild(li);
   });
 
